@@ -3,8 +3,11 @@ Hybrid Quantum Neural Network Approaches to Protein–Ligand Binding Affinity Pr
 
 ### Folders
 ./src/ :   The classical and hybrid quantum classical models 
+
 ./data/:   All datasets   
+
 ./run/:    Output predictions 
+
 ./export/: TensorBoard exports
 
 ### Requirements:
