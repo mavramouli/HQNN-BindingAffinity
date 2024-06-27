@@ -3,8 +3,6 @@ Hybrid Quantum Neural Network Approaches to Protein–Ligand Binding Affinity Pr
 
 ### Requirements:
 Python 3.9.19
-
 PyTorch 2.2.2
-
 PennyLane 0.35.1
 
