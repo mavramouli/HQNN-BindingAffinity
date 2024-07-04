@@ -1,21 +1,10 @@
 from pathlib import Path
-#import joblib
 import numpy as np
-#import pennylane.numpy as np
 import pandas as pd
 from torch.utils.data import Dataset
-#from typing import List
-#from sklearn import preprocessing
 import torch
 import torch.utils.data
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-#import re
-#import csv
-#import random
-#import copy
-#from math import sqrt
-#from scipy import stats
-#import torch.nn.functional as F
 from sklearn.preprocessing import MinMaxScaler
 
 
@@ -81,27 +70,6 @@ class MyDataset_PDBBind2020(Dataset):
                  all_df[c]= scalers[c].transform(all_df[[c]])
         self.smile_desc = all_df[cols].to_numpy().tolist()
 
-
-        '''
-        if phase == 'test105' or phase == 'test71' :
-            pkt = pd.read_csv(data_path / f"zy_{phase}_pkt.csv")
-        else:
-            pkt = pd.read_csv(data_path / f"zy_{phase}_pkt_2.csv")
-            disabled_features = ['F43', 'F44', 'F87','F88', 'F131', 'F132']
-            pkt = pkt.drop(disabled_features, axis=1)
-        
-        a = pkt['pdbid'].apply(lambda x:x[:4]).tolist()
-        pkt = pkt.drop(labels='pdbid',axis=1)
-        pkt['pdbid']=a  
-        pkt.set_index(['pdbid'], inplace = True)
-         
-        self.pkt = pkt
-
-        comp900 = pd.read_csv(f"../data/comp900_{phase}.csv")
-
-        comp900.set_index(['pdbid'], inplace = True)
-        self.comp900 = comp900
-        '''
         self.length = len(self.smi)
         
     
@@ -110,8 +78,6 @@ class MyDataset_PDBBind2020(Dataset):
         protseq   = self.prots[idx]
 
         return (
-                #np.array(self.pkt.loc[pdbid], dtype=np.float32),
-                #np.array(self.comp900.loc[pdbid], dtype=np.float32),
                 label_smiles(aug_smile, self.max_smi_len),
                 label_sequence(protseq, self.max_seq_len),
                 np.array(self.smile_desc[idx], dtype=np.float32),
@@ -168,8 +134,6 @@ class MyDataset_LB_PDBBind2020(Dataset):
         protseq   = self.prots[idx]
 
         return (
-                #np.array(self.pkt.loc[pdbid], dtype=np.float32),
-                #np.array(self.comp900.loc[pdbid], dtype=np.float32),
                 label_smiles(aug_smile, self.max_smi_len),
                 label_sequence(protseq, self.max_seq_len),
                 np.array(self.affinity[idx], dtype=np.float32), #dummy epistrefei to idio
@@ -222,24 +186,7 @@ class MyDataset_pdbbind2016(Dataset):
         prot_df = pd.read_csv(data_path / f"{name}_{phase}_seq.csv")
         prots = {i["id"]: i["seq"] for _, i in prot_df.iterrows()}
         self.prots = prots
-       # if phase == 'test105' or phase == 'test71' :
-       #     pkt = pd.read_csv(data_path / f"zy_{phase}_pkt.csv")
-       # else:
-       #     pkt = pd.read_csv(data_path / f"zy_{phase}_pkt_2.csv")
-       #     disabled_features = ['F43', 'F44', 'F87','F88', 'F131', 'F132']
-       #     pkt = pkt.drop(disabled_features, axis=1)
-        
-       # a = pkt['pdbid'].apply(lambda x:x[:4]).tolist()
-       # pkt = pkt.drop(labels='pdbid',axis=1)
-       # pkt['pdbid']=a  
-        #pkt.set_index(['pdbid'], inplace = True)
-         
-        #self.pkt = pkt
-		
-        #comp900 = pd.read_csv(f"../data/comp900_{phase}.csv")
-
-        #comp900.set_index(['pdbid'], inplace = True)
-        #self.comp900 = comp900
+	    
         self.length = len(self.smi)
 
     def __getitem__(self, idx):
@@ -248,7 +195,6 @@ class MyDataset_pdbbind2016(Dataset):
         protseq = self.prots[pdbid]
 
         return (
-                #np.array(self.comp900.loc[pdbid], dtype=np.float32),
                 label_smiles(aug_smile, self.max_smi_len),
                 label_sequence(protseq,self.max_seq_len),
                 np.array(self.affinity[pdbid], dtype=np.float32), #dummy
@@ -284,26 +230,7 @@ class MyDataset_davis_kiba(Dataset):
         #self.smile_desc = all_df[cols].to_numpy().tolist()
 
 
-        '''
-        if phase == 'test105' or phase == 'test71' :
-            pkt = pd.read_csv(data_path / f"zy_{phase}_pkt.csv")
-        else:
-            pkt = pd.read_csv(data_path / f"zy_{phase}_pkt_2.csv")
-            disabled_features = ['F43', 'F44', 'F87','F88', 'F131', 'F132']
-            pkt = pkt.drop(disabled_features, axis=1)
-        
-        a = pkt['pdbid'].apply(lambda x:x[:4]).tolist()
-        pkt = pkt.drop(labels='pdbid',axis=1)
-        pkt['pdbid']=a  
-        pkt.set_index(['pdbid'], inplace = True)
-         
-        self.pkt = pkt
-
-        comp900 = pd.read_csv(f"../data/comp900_{phase}.csv")
-
-        comp900.set_index(['pdbid'], inplace = True)
-        self.comp900 = comp900
-        '''
+       
         self.length = len(self.smi)
         
     
@@ -312,8 +239,6 @@ class MyDataset_davis_kiba(Dataset):
         protseq   = self.prots[idx]
 
         return (
-                #np.array(self.pkt.loc[pdbid], dtype=np.float32),
-                #np.array(self.comp900.loc[pdbid], dtype=np.float32),
                 label_smiles(aug_smile, self.max_smi_len),
                 label_sequence(protseq, self.max_seq_len),
                 np.array(self.affinity[idx], dtype=np.float32), #dummy
